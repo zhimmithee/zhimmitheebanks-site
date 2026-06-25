@@ -1,44 +1,289 @@
-
-<!DOCTYPE html>
-<html lang="en" class="bg-[#050505] text-white">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The IT Athlete</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Zhimmithee Banks | The IT Athlete</title>
-</head>
-<body class="font-sans industrial-grid h-screen flex items-center justify-center">
-    <div class="max-w-xl w-full px-6">
-        <div class="mb-12">
-            <h1 class="text-4xl md:text-5xl font-black mb-6 leading-tight">
-                You support the tech.<br>
-                <span class="text-[#fd4900]">I support you.</span>
-            </h1>
-            <p class="text-lg text-neutral-400 mb-8 leading-relaxed">
-                I help 30–55-year-old IT professionals clear Physical Technical Debt. No fitness fluff, no guru posturing. Just system maintenance for the hardware you can't replace.
-            </p>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+              serif: ['"Playfair Display"', 'ui-serif', 'Georgia', 'serif'],
+              mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>
+      [x-cloak] { display: none !important; }
+      @keyframes scaleIn {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+      .animate-scale-in {
+        animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-slate-900 selection:bg-pink-100 selection:text-pink-900 antialiased">
+    
+    <div x-data="{
+      subscribed: false,
+      activeMode: 'itAthlete',
+      isCustomizing: false,
+      customLine1: '',
+      customLine2: '',
+      customParagraph: '',
+      customButtonText: '',
+      presets: {
+        itAthlete: {
+          headlineLine1: 'Your schedule isn’t perfect.',
+          headlineLine2: 'Your training can still work.',
+          paragraph: `ZhimmitheeBanks.com is where desk-bound professionals learn to keep their bodies useful with short, practical <span class='text-[#fd4900] font-semibold'>Movement Patches</span> built for stiff backs, tight hips, cranky shoulders, aging joints, and schedules that rarely cooperate.`,
+          buttonText: 'Get your Movement Patch',
+          primaryColor: '#fd4900',
+          primaryColorHover: '#e03e00'
+        },
+        screenshot: {
+          headlineLine1: 'Your experience is the asset,',
+          headlineLine2: 'AI is the build tool',
+          paragraph: `KimDoyal.com is where entrepreneurs learn to build custom AI tools, apps, and systems for their businesses — without writing code or hiring developers. I'm <span class='text-[#da2e67] font-semibold hover:underline cursor-pointer'>Kim Doyal</span>, founder of AI Spark Studios. After 18 years in digital marketing, I've developed and tested a 33-agent AI operating system across 5 functional layers and built a multi-tenant SaaS platform, all without a computer science degree. If you're done using AI for chat and ready to build something real, you're in the right place.`,
+          buttonText: 'GET YOUR AI ADVANTAGE PROFILE →',
+          primaryColor: '#da2e67',
+          primaryColorHover: '#c21d53'
+        }
+      },
+      currentPreset() {
+        return this.presets[this.activeMode];
+      },
+      h1() {
+        return this.isCustomizing && this.customLine1 ? this.customLine1 : this.currentPreset().headlineLine1;
+      },
+      h2() {
+        return this.isCustomizing && this.customLine2 ? this.customLine2 : this.currentPreset().headlineLine2;
+      },
+      bodyText() {
+        return this.isCustomizing && this.customParagraph ? this.customParagraph : this.currentPreset().paragraph;
+      },
+      btnText() {
+        return this.isCustomizing && this.customButtonText ? this.customButtonText : this.currentPreset().buttonText;
+      },
+      primaryColor() {
+        return this.currentPreset().primaryColor;
+      },
+      primaryColorHover() {
+        return this.currentPreset().primaryColorHover;
+      },
+      changeMode(mode) {
+        this.activeMode = mode;
+        this.isCustomizing = false;
+        this.customLine1 = '';
+        this.customLine2 = '';
+        this.customParagraph = '';
+        this.customButtonText = '';
+        this.subscribed = false;
+      },
+      enableCustomizer() {
+        this.isCustomizing = true;
+        this.customLine1 = this.h1();
+        this.customLine2 = this.h2();
+        this.customParagraph = this.bodyText();
+        this.customButtonText = this.btnText();
+      }
+    }" class="min-h-screen bg-white text-slate-800 transition-colors duration-500 font-sans relative overflow-hidden flex flex-col justify-between selection:bg-pink-100">
+      
+      <!-- Ambient Background Gradients -->
+      <div class="absolute inset-0 pointer-events-none z-0">
+        <div class="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-gradient-to-tr from-orange-100/10 to-indigo-100/10 blur-3xl opacity-80"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-orange-100/10 to-pink-100/10 blur-3xl opacity-60"></div>
+        <!-- Grid Pattern Overlay -->
+        <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.35]"></div>
+      </div>
+
+      <!-- Main Body Container -->
+      <main class="relative z-10 flex-1 flex flex-col justify-center items-center py-16 md:py-24 px-6">
+        
+        <!-- Interactive Layout wrapper -->
+        <div class="w-full max-w-5xl mx-auto flex flex-col items-center">
+          
+          <!-- Hero Section -->
+          <div class="text-center max-w-4xl space-y-8 select-text">
             
-            <form action="YOUR_CONVERTKIT_FORM_ACTION" method="post" class="space-y-4">
-                <input type="email" required placeholder="Enter your work email..." 
-                       class="w-full bg-[#0a0a0a] border border-[#333333] px-4 py-3 text-sm focus:outline-none focus:border-[#fd4900] transition-colors">
-                <button type="submit" 
-                        class="w-full bg-[#fd4900] text-[#050505] font-extrabold text-sm py-3 px-6 tracking-wide hover:opacity-90 transition-opacity">
-                    ACCESS THE MOVEMENT PATCH →
+            <!-- Headline Stack -->
+            <div class="space-y-3 md:space-y-4">
+              <h1 class="font-serif text-[38px] sm:text-5xl md:text-6xl lg:text-[72px] font-normal text-[#131130] leading-[1.08] tracking-tight" x-text="h1()"></h1>
+              <h2 
+                class="font-serif italic text-[36px] sm:text-[48px] md:text-[58px] lg:text-[68px] font-normal leading-[1.1] block"
+                :style="'color: ' + primaryColor()"
+                x-text="h2()"
+              ></h2>
+            </div>
+
+            <!-- Paragraph Container -->
+            <div class="max-w-2xl mx-auto">
+              <p 
+                class="text-slate-600 font-sans text-[15px] sm:text-[16px] md:text-[17px] leading-[1.8] tracking-[0.01em] font-light text-center"
+                x-html="bodyText()"
+              ></p>
+            </div>
+
+            <!-- Glowing Center CTA Pill -->
+            <div class="pt-4 flex flex-col items-center justify-center w-full">
+              <!-- Subscribed Message -->
+              <template x-if="subscribed">
+                <div class="bg-emerald-50 border border-emerald-200 px-6 py-4 rounded-xl text-center space-y-1 animate-scale-in max-w-md shadow-sm">
+                  <div class="flex items-center justify-center gap-2 text-emerald-600 font-bold text-sm">
+                    <svg class="w-4 h-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>SYSTEM INTEGRATION INITIALIZED</span>
+                  </div>
+                  <p class="text-xs text-slate-500 font-sans leading-relaxed">
+                    Welcome to the release list. Get ready to reduce your Physical Technical Debt.
+                  </p>
+                </div>
+              </template>
+              
+              <!-- Subscription Button -->
+              <template x-if="!subscribed">
+                <div class="w-full flex flex-col items-center gap-6">
+                  <button 
+                    @click="subscribed = true"
+                    class="group relative px-8 py-4 rounded-full text-white text-xs sm:text-[13px] font-bold tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 shadow-md select-none cursor-pointer uppercase"
+                    :style="'background-color: ' + primaryColor() + '; box-shadow: 0 8px 16px -4px ' + primaryColor() + '45'"
+                  >
+                    <span class="relative z-10" x-text="btnText()"></span>
+                    <div 
+                      class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-15 transition-opacity duration-300"
+                      style="background-color: #ffffff"
+                    ></div>
+                  </button>
+                </div>
+              </template>
+            </div>
+
+          </div>
+
+          <!-- Bottom interactive config deck (Shown when in Customizer mode or triggered) -->
+          <div x-show="isCustomizing" x-cloak class="mt-16 w-full max-w-3xl border border-dashed border-indigo-200 bg-indigo-50/20 p-6 backdrop-blur-sm shadow-sm animate-scale-in">
+            <div class="flex justify-between items-center mb-4 pb-2 border-b border-indigo-100">
+              <span class="text-xs font-mono font-bold text-indigo-700 flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H12" />
+                </svg>
+                REAL-TIME COPYSHEET REWRITE MODULE
+              </span>
+              <button 
+                @click="isCustomizing = false"
+                class="text-[10px] uppercase font-mono font-bold tracking-wider text-slate-500 hover:text-slate-800 cursor-pointer"
+              >
+                [ Exit Customizer ]
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+              <div class="space-y-3">
+                <div>
+                  <label class="block text-slate-500 mb-1">HEADLINE LINE 1 (SERIF NAVY)</label>
+                  <input 
+                    type="text" 
+                    x-model="customLine1"
+                    class="w-full bg-white border border-slate-200 px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    placeholder="Your experience is the asset,"
+                  />
+                </div>
+                <div>
+                  <label class="block text-slate-500 mb-1">HEADLINE LINE 2 (ITALIC PINK/ORANGE)</label>
+                  <input 
+                    type="text" 
+                    x-model="customLine2"
+                    class="w-full bg-white border border-slate-200 px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    placeholder="AI is the build tool"
+                  />
+                </div>
+              </div>
+
+              <div class="space-y-3">
+                <div>
+                  <label class="block text-slate-500 mb-1">BODY PARAGRAPH (HTML SUPPORTED)</label>
+                  <textarea 
+                    x-model="customParagraph"
+                    class="w-full h-24 bg-white border border-slate-200 px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-sans"
+                    placeholder="Describe your offer..."
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-indigo-100/50 flex flex-col sm:flex-row justify-between items-center gap-3">
+              <span class="text-[10px] text-slate-400 font-sans">
+                Tip: Use <code>&lt;span class="text-orange-600 font-semibold"&gt;Text&lt;/span&gt;</code> to highlight names!
+              </span>
+              <div class="flex gap-2">
+                <button 
+                  @click="customLine1 = 'Your wisdom is the codebase,'; customLine2 = 'systems are the compiler'; customParagraph = 'Reinvent your system workflows from scratch without losing focus.'"
+                  class="px-3 py-1.5 bg-white border border-slate-200 text-[10px] hover:bg-slate-50 text-slate-600 transition-colors cursor-pointer font-mono"
+                >
+                  Template B
                 </button>
-            </form>
-            
-            <p class="mt-4 text-xs text-neutral-600 font-mono">
-                1,400+ tech pros already running the patch.
-            </p>
+                <button 
+                  @click="customLine1 = ''; customLine2 = ''; customParagraph = ''; customButtonText = ''; isCustomizing = false"
+                  class="px-3 py-1.5 bg-slate-100 text-[10px] hover:bg-slate-200 text-slate-700 transition-colors cursor-pointer font-mono"
+                >
+                  Reset Original
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <footer class="pt-12 border-t border-[#1a1a1a]">
-            <p class="text-xs text-neutral-500 uppercase tracking-widest">
-                Zhimmithee Banks | The IT Athlete
-            </p>
-        </footer>
+      </main>
+
+      <!-- Footer -->
+      <footer class="relative z-20 border-t border-slate-100 bg-white py-12 px-6 md:px-12 text-xs text-slate-400">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div class="flex items-center gap-3 select-none">
+            <span 
+              @click="if (isCustomizing) { isCustomizing = false; } else { enableCustomizer(); }" 
+              class="font-bold text-slate-800 font-mono tracking-wider cursor-pointer hover:text-slate-600 transition-colors"
+              title="Click to toggle Copywriter Customizer Mode"
+            >
+              THE IT ATHLETE // SYSTEM DECK
+            </span>
+            <span class="text-slate-300">|</span>
+            <span 
+              @click="changeMode(activeMode === 'itAthlete' ? 'screenshot' : 'itAthlete')" 
+              class="cursor-pointer hover:text-slate-600 transition-colors underline decoration-dotted"
+              title="Click to switch preset theme mode"
+            >
+              Preset: <span class="font-mono uppercase" x-text="activeMode"></span>
+            </span>
+          </div>
+
+          <div class="flex gap-6 font-mono text-[11px]">
+            <span class="hover:text-slate-700 cursor-pointer">PHYSICAL_PATCH.SH</span>
+            <span class="hover:text-slate-700 cursor-pointer">PRIVACY</span>
+            <span class="hover:text-slate-700 cursor-pointer">SYSTEM_LOGS</span>
+          </div>
+        </div>
+      </footer>
+
     </div>
-</body>
+    
+  </body>
 </html>
