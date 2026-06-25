@@ -5,7 +5,7 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --color-brand-orange: #fd4900;
   --color-brand-green: #00ff00;
-  --color-dark-bg: #000000;
+  --color-dark-bg: #050505;
   --color-dark-surface: #0a0a0a;
   --color-dark-panel: #080808;
   --color-dark-card: #111111;
@@ -13,6 +13,7 @@
   --color-border-medium: #333333;
   --color-border-light: #444444;
 }
+
 
 /* Custom scrollbar and grid background */
 ::-webkit-scrollbar {
