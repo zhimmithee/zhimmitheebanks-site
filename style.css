@@ -5,7 +5,7 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --color-brand-orange: #fd4900;
   --color-brand-green: #00ff00;
-  --color-dark-bg: #050505;
+  --color-dark-bg: #000000;
   --color-dark-surface: #0a0a0a;
   --color-dark-panel: #080808;
   --color-dark-card: #111111;
@@ -21,7 +21,7 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: #000000;
   border-left: 1px solid #1a1a1a;
 }
 ::-webkit-scrollbar-thumb {
