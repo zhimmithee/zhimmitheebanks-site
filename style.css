@@ -1,1 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --color-brand-orange: #fd4900;
+  --color-brand-green: #00ff00;
+  --color-dark-bg: #050505;
+  --color-dark-surface: #0a0a0a;
+  --color-dark-panel: #080808;
+  --color-dark-card: #111111;
+  --color-border-structural: #1a1a1a;
+  --color-border-medium: #333333;
+  --color-border-light: #444444;
+}
+
+/* Custom scrollbar and grid background */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+  border-left: 1px solid #1a1a1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+  border: 1px solid #333333;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #fd4900;
+}
+
+.industrial-grid {
+  background-size: 32px 32px;
+  background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+}
+
+.glow-orange {
+  box-shadow: 0 0 15px rgba(253, 73, 0, 0.2);
+}
+
+.glow-green {
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+}
+
+/* Base resets */
+* {
+  border-radius: 0px !important;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #050505;
+  color: #ffffff;
+}
 
