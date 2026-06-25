@@ -1,0 +1,1145 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The IT Athlete | Zhimmithee "Z" Banks</title>
+    
+    <!-- Hanken Grotesk & JetBrains Mono Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Hanken Grotesk"', 'system-ui', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+          }
+        }
+      }
+    </script>
+    
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Lucide Icons Script -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      /* Custom scrollbar and grid background */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #050505;
+        border-left: 1px solid #1a1a1a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1a1a1a;
+        border: 1px solid #333333;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-hex, #fd4900);
+      }
+
+      .industrial-grid {
+        background-size: 32px 32px;
+        background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+      }
+
+      .glow-orange {
+        box-shadow: 0 0 15px rgba(253, 73, 0, 0.15);
+      }
+
+      .glow-green {
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.15);
+      }
+
+      /* Base resets and strict 0px border-radius */
+      * {
+        border-radius: 0px !important;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #050507;
+        color: #e5e5e5;
+      }
+
+      /* Custom text selection colors */
+      .accent-orange::selection {
+        background-color: #fd4900;
+        color: #ffffff;
+      }
+      .accent-green::selection {
+        background-color: #00ff00;
+        color: #000000;
+      }
+    </style>
+  </head>
+  <body 
+    x-data="appState" 
+    class="min-h-screen text-white flex flex-col font-sans border-8 border-[#1a1a1a] relative pb-28"
+    :class="themeAccent === 'orange' ? 'accent-orange' : 'accent-green'"
+    :style="'--accent-hex: ' + (themeAccent === 'orange' ? '#fd4900' : '#00ff00')"
+    x-init="renderIcons(); $watch('activeTab', () => renderIcons()); $watch('selectedVersionId', () => renderIcons()); $watch('themeAccent', () => renderIcons())"
+  >
+    
+    <!-- Top Utility Pipeline Ribbon (Optional, now showing Active Theme selection) -->
+    <div class="bg-black border-b border-[#262626] px-4 py-2.5 flex flex-wrap justify-between items-center gap-2 z-10">
+      <div class="flex items-center gap-3 font-mono text-xs">
+        <span class="w-2.5 h-2.5 inline-block animate-pulse" :class="themeAccent === 'orange' ? 'bg-[#fd4900]' : 'bg-[#00ff00]'"></span>
+        <span class="text-gray-400 font-bold uppercase tracking-wider">
+          THE IT ATHLETE // STATIC DRAFT SYSTEM
+        </span>
+        <span class="text-gray-600">|</span>
+        <span class="font-bold uppercase tracking-widest text-[10px]" :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">
+          ACTIVE: HIGH-UPTIME PIPELINE
+        </span>
+      </div>
+      
+      <!-- Theme Toggler Panel -->
+      <div class="flex items-center gap-2">
+        <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">ACTIVE ACCENT STATE:</span>
+        <div class="flex border border-[#262626] p-0.5 bg-[#050507]">
+          <button
+            @click="themeAccent = 'orange'"
+            class="px-2.5 py-1 text-[9px] font-mono font-bold uppercase transition-all"
+            :class="themeAccent === 'orange' ? 'bg-[#fd4900] text-black' : 'text-gray-400 hover:text-white'"
+          >
+            ORANGE ALERT
+          </button>
+          <button
+            @click="themeAccent = 'green'"
+            class="px-2.5 py-1 text-[9px] font-mono font-bold uppercase transition-all"
+            :class="themeAccent === 'green' ? 'bg-[#00ff00] text-black' : 'text-gray-400 hover:text-white'"
+          >
+            CYBER NEON
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col">
+
+      <!-- TAB 1: 3-Draft Comparison Board -->
+      <div x-show="activeTab === 'board'" class="flex-1 flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-[#262626] bg-[#050507]">
+        
+        <!-- Version 1 Section -->
+        <section class="lg:w-1/3 p-8 flex flex-col justify-between hover:bg-[#09090b] transition-colors group relative">
+          <div class="space-y-6">
+            <div class="flex justify-between items-start">
+              <span class="bg-white text-black px-2 py-1 text-[10px] font-bold uppercase inline-block font-mono">
+                Version 01: Direct / Punchy
+              </span>
+              <button
+                @click="selectedVersionId = 'v1'; activeTab = 'mockup'"
+                class="px-2 py-0.5 border border-[#262626] text-[9px] font-mono text-gray-400 hover:text-white transition-all"
+                :class="themeAccent === 'orange' ? 'hover:border-[#fd4900]' : 'hover:border-[#00ff00]'"
+              >
+                [LOAD PREVIEW]
+              </button>
+            </div>
+
+            <div>
+              <h2 class="text-4xl sm:text-5xl lg:text-4xl font-black leading-[0.9] tracking-tight mb-4 uppercase italic font-sans text-white">
+                Train Like Your<br />Body Still<br />Matters.
+              </h2>
+              <p class="text-gray-400 text-sm leading-relaxed font-medium" x-text="versions[0].hook"></p>
+            </div>
+
+            <div class="space-y-4 border-t border-[#1c1917] pt-4">
+              <p class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">
+                SYSTEM_ATTRIBUTES // CORRECTIVES
+              </p>
+              <ul class="font-mono text-xs space-y-2 text-gray-400">
+                <li class="flex items-center gap-2">
+                  <span :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">[√]</span>
+                  <span>Zero Bloat Methodology</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">[√]</span>
+                  <span>High-Throughput Mobility</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <span :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">[√]</span>
+                  <span>Bands-First De-compression</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-[#09090b] border border-[#262626] p-4 font-mono text-xs space-y-2">
+              <div class="flex justify-between text-[10px] text-gray-500">
+                <span>HARDWARE LAYER</span>
+                <span>FOCUS</span>
+              </div>
+              <template x-for="(item, idx) in versions[0].hardwareStack" :key="idx">
+                <div class="flex justify-between text-white border-b border-[#262626]/40 pb-1 last:border-0">
+                  <span x-text="'L' + item.level + ' ' + item.name"></span>
+                  <span :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'" x-text="item.purpose.split(' ')[0]"></span>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <div class="border-t border-[#262626] pt-6 mt-8">
+            <p class="text-[10px] font-mono text-gray-500 mb-1">MANDATORY TAGLINE CONFIGURATION:</p>
+            <p class="text-xs font-bold tracking-wide uppercase text-white" x-text="'Hero: ' + versions[0].heroHeadline"></p>
+            <p class="text-[11px] font-mono text-gray-400 italic mt-1" x-text="'Sub: ' + versions[0].subheadline"></p>
+          </div>
+        </section>
+
+        <!-- Version 2 Section -->
+        <section class="lg:w-1/3 p-8 flex flex-col justify-between bg-[#08080a] hover:bg-[#09090b] transition-colors relative">
+          <div class="space-y-6">
+            <div class="flex justify-between items-start">
+              <span class="text-black px-2 py-1 text-[10px] font-bold uppercase inline-block font-mono"
+                :class="themeAccent === 'orange' ? 'bg-[#fd4900]' : 'bg-[#00ff00]'"
+              >
+                Version 02: Logic-Driven
+              </span>
+              <button
+                @click="selectedVersionId = 'v2'; activeTab = 'mockup'"
+                class="px-2 py-0.5 border border-[#262626] text-[9px] font-mono text-gray-400 hover:text-white transition-all"
+                :class="themeAccent === 'orange' ? 'hover:border-[#fd4900]' : 'hover:border-[#00ff00]'"
+              >
+                [LOAD PREVIEW]
+              </button>
+            </div>
+
+            <div>
+              <h2 class="text-4xl sm:text-5xl lg:text-4xl font-black leading-[0.9] tracking-tight mb-4 uppercase font-sans text-white">
+                Hardware<br />Stack<br />Audit.
+              </h2>
+              <p class="text-gray-400 text-sm leading-relaxed font-medium" x-text="versions[1].hook"></p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mt-4 font-mono text-xs">
+              <div class="bg-[#09090b] p-3 border border-[#262626]">
+                <p class="text-[10px] text-gray-500">L1 CACHE CAUSE</p>
+                <p class="text-sm font-bold text-white mt-1">Cervical Node</p>
+                <span class="text-[9px] block mt-0.5" :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">Tech Neck</span>
+              </div>
+              <div class="bg-[#09090b] p-3 border border-[#262626]">
+                <p class="text-[10px] text-gray-500">L2 CACHE CAUSE</p>
+                <p class="text-sm font-bold text-white mt-1">Lumbar Node</p>
+                <span class="text-[9px] block mt-0.5" :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">Slouch Slag</span>
+              </div>
+            </div>
+
+            <div class="space-y-3 border-t border-[#1c1917] pt-4">
+              <p class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">
+                SYSTEM SPEC // RECONSTRUCTIONS
+              </p>
+              <template x-for="(item, idx) in versions[1].hardwareStack" :key="idx">
+                <div class="flex gap-2 items-start text-xs font-mono text-gray-400">
+                  <span :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'" x-text="'[' + item.level + ']'"></span>
+                  <div>
+                    <strong class="text-white uppercase" x-text="item.name"></strong>: <span x-text="item.metaphor"></span>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <div class="border-t border-[#262626] pt-6 mt-8">
+            <p class="text-[10px] font-mono text-gray-500 mb-1">MANDATORY TAGLINE CONFIGURATION:</p>
+            <p class="text-xs font-bold tracking-wide uppercase text-white" x-text="'Hero: ' + versions[1].heroHeadline"></p>
+            <p class="text-[11px] font-mono text-gray-400 italic mt-1" x-text="'Sub: ' + versions[1].subheadline"></p>
+          </div>
+        </section>
+
+        <!-- Version 3 Section -->
+        <section class="lg:w-1/3 p-8 flex flex-col justify-between hover:bg-[#09090b] transition-colors relative border-t lg:border-t-0 border-[#262626]">
+          <div class="space-y-6">
+            <div class="flex justify-between items-start">
+              <span class="bg-white text-black px-2 py-1 text-[10px] font-bold uppercase inline-block font-mono flex items-center gap-1">
+                <span>Version 03: Personal / Coach</span>
+                <span :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">★ RECOMMENDED</span>
+              </span>
+              <button
+                @click="selectedVersionId = 'v3'; activeTab = 'mockup'"
+                class="px-2 py-0.5 border bg-black text-[9px] font-mono font-bold transition-all"
+                :class="themeAccent === 'orange' ? 'border-[#fd4900] text-[#fd4900]' : 'border-[#00ff00] text-[#00ff00]'"
+              >
+                [ACTIVE]
+              </button>
+            </div>
+
+            <div>
+              <h2 class="text-4xl sm:text-5xl lg:text-4xl font-black leading-[0.9] tracking-tight mb-4 uppercase italic font-sans text-white">
+                You Are<br />Not Done<br />Yet.
+              </h2>
+              <p class="text-gray-400 text-sm leading-relaxed font-medium" x-text="versions[2].hook"></p>
+            </div>
+
+            <!-- Media Box Placeholder matching layout -->
+            <div class="relative h-32 bg-[#09090b] border border-dashed border-[#444444] flex flex-col items-center justify-center p-4 text-center">
+              <i data-lucide="user" class="w-8 h-8 text-gray-500 mb-1 group-hover:text-white transition-colors"
+                 :class="themeAccent === 'orange' ? 'group-hover:text-[#fd4900]' : 'group-hover:text-[#00ff00]'"></i>
+              <p class="text-[10px] font-mono text-gray-400 uppercase tracking-wider">
+                [ COACH ZHIMMITHEE "Z" BANKS ]
+              </p>
+              <p class="text-[9px] text-gray-600 font-mono mt-0.5 uppercase">
+                30-Year IT Vet // Elite Conditioning Coach
+              </p>
+            </div>
+
+            <div class="bg-[#09090b] border border-[#262626] p-4 text-xs">
+              <p class="font-mono text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">
+                Z'S DIRECT ANALYSIS:
+              </p>
+              <p class="text-gray-300 leading-relaxed font-mono text-[11px]">
+                "Version 3 hits the exact demographic (30-55 year old IT professionals) with unmatched force. It acknowledges their career success but immediately exposes their physical blind spot..."
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-[#262626] pt-6 mt-8">
+            <p class="text-[10px] font-mono text-gray-500 mb-1">MANDATORY TAGLINE CONFIGURATION:</p>
+            <p class="text-xs font-bold tracking-wide uppercase text-white" x-text="'Hero: ' + versions[2].heroHeadline"></p>
+            <p class="text-[11px] font-mono text-gray-400 italic mt-1" x-text="'Sub: ' + versions[2].subheadline"></p>
+          </div>
+        </section>
+      </div>
+
+      <!-- TAB 2: Live Simulator Landing Page -->
+      <div x-show="activeTab === 'mockup'" class="flex-1 grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#262626] bg-[#050507]">
+        
+        <!-- Left Blueprint Overview Panel -->
+        <div class="lg:col-span-4 p-6 flex flex-col justify-between bg-[#09090b]">
+          <div class="space-y-6">
+            <div>
+              <span class="border px-2 py-1 text-[10px] font-bold uppercase tracking-widest block w-fit font-mono"
+                :class="themeAccent === 'orange' ? 'bg-[#fd4900]/10 text-[#fd4900] border-[#fd4900]/30' : 'bg-[#00ff00]/10 text-[#00ff00] border-[#00ff00]/30'"
+              >
+                DRAFT SIMULATOR
+              </span>
+              <h3 class="text-xl font-black text-white uppercase tracking-tight mt-3 font-sans" x-text="getActiveVersion().title"></h3>
+              <p class="text-xs text-gray-400 font-mono mt-1 leading-relaxed">
+                Analyzing target output performance against active system resources. Toggle drafts using the floating bar below or customize copy on Tab 3.
+              </p>
+            </div>
+
+            <!-- KPI Metrics -->
+            <div class="grid grid-cols-3 gap-2">
+              <template x-for="(call, idx) in getActiveVersion().callouts" :key="idx">
+                <div class="bg-black p-3 border border-[#262626]">
+                  <p class="text-[8px] font-mono text-gray-500 uppercase font-bold tracking-wider leading-none" x-text="call.label"></p>
+                  <p class="font-sans text-base font-black tracking-tight mt-1.5"
+                    :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'"
+                    x-text="call.value"
+                  ></p>
+                  <p class="text-[9px] font-mono text-gray-400 leading-tight mt-1" x-text="call.desc"></p>
+                </div>
+              </template>
+            </div>
+
+            <!-- Current postural status report indicators -->
+            <div class="space-y-2 font-mono text-xs">
+              <p class="text-gray-500 uppercase tracking-widest text-[10px]">CURRENT DEBENTURES:</p>
+              <div class="p-3 bg-black border border-[#262626] space-y-2">
+                <div class="flex justify-between items-center text-[11px]">
+                  <span class="text-gray-400">Biomech Alignment:</span>
+                  <span class="text-amber-500 font-bold uppercase">Warning (70%)</span>
+                </div>
+                <div class="flex justify-between items-center text-[11px]">
+                  <span class="text-gray-400">Thoracic Slouch Load:</span>
+                  <span class="text-red-500 font-bold uppercase animate-pulse">Critical (92%)</span>
+                </div>
+                <div class="flex justify-between items-center text-[11px]">
+                  <span class="text-gray-400">Cervical Neural Lag:</span>
+                  <span class="text-red-500 font-bold uppercase animate-pulse">Critical (88%)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Controls for Simulator -->
+            <div class="space-y-2 pt-2 font-mono">
+              <button
+                @click="copyActiveDraft()"
+                class="w-full bg-[#09090b] hover:bg-[#181818] border border-[#262626] hover:border-white py-2.5 text-xs font-bold uppercase transition-all tracking-wider text-white"
+              >
+                <span x-show="clipboardStatus === 'sim'">[DRAFT COPIED!]</span>
+                <span x-show="clipboardStatus !== 'sim'">[COPY ACTIVE RAW TEXT]</span>
+              </button>
+              
+              <button
+                @click="activeTab = 'editor'"
+                class="w-full bg-white text-black py-2.5 text-xs font-bold uppercase transition-all tracking-wider flex items-center justify-center gap-1.5 hover:bg-gray-200"
+              >
+                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                <span>REFACTOR COPY DRAFT</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Coach Persona Quote -->
+          <div class="border-t border-[#262626] pt-4 mt-8">
+            <p class="text-[10px] font-mono text-gray-500 uppercase">Z'S VERDICT:</p>
+            <p class="text-xs text-gray-400 font-mono mt-1 leading-normal italic">
+              "Stop optimizing servers while your biomechanical stack collapses. Run correctives, load constant tension, and restore 100% skeletal uptime."
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Simulation Viewer -->
+        <div class="lg:col-span-8 flex flex-col bg-black">
+          
+          <!-- Simulator Navigation Bar -->
+          <div class="bg-[#0e0e11] border-b border-[#262626] px-4 py-3 flex justify-between items-center z-10">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 bg-red-600 inline-block"></span>
+              <span class="w-2.5 h-2.5 bg-yellow-500 inline-block"></span>
+              <span class="w-2.5 h-2.5 bg-green-500 inline-block"></span>
+              <span class="text-[10px] font-mono text-gray-500 uppercase ml-2 tracking-widest hidden sm:inline">
+                TARGET LOC // zhimmitheebanks.com/the-it-athlete
+              </span>
+            </div>
+            
+            <div class="flex items-center gap-3">
+              <span class="text-[9px] font-mono bg-black border px-2 py-0.5 font-bold animate-pulse uppercase tracking-wider"
+                :class="themeAccent === 'orange' ? 'text-[#fd4900] border-[#fd4900]/30' : 'text-[#00ff00] border-[#00ff00]/30'"
+                x-text="'ACTIVE RENDERING // ' + getActiveVersion().badge"
+              ></span>
+            </div>
+          </div>
+
+          <!-- Simulation Content Stage with Radial Grid Background -->
+          <div
+            class="industrial-grid flex-1 p-6 sm:p-12 overflow-y-auto text-[#e5e5e5]"
+            :style="isLivePreviewScroll ? 'max-height: 720px;' : 'max-height: none;'"
+          >
+            <div class="max-w-3xl mx-auto space-y-12">
+              
+              <!-- BRAND HEADER COMPLIANCE -->
+              <div class="border-b border-[#262626] pb-4 flex justify-between items-center flex-wrap gap-2">
+                <div>
+                  <p class="font-sans text-[11px] font-black uppercase tracking-widest text-gray-400 leading-none">
+                    ZHIMMITHEE BANKS
+                  </p>
+                  <p class="font-mono text-[9px] font-bold uppercase tracking-widest mt-1 text-[#fd4900]">
+                    Powered by Cables, Bands, and Bells.
+                  </p>
+                </div>
+                <div class="font-mono text-[10px] text-gray-500 uppercase tracking-widest">
+                  [SYSTEM_01 // SECURE_PORT]
+                </div>
+              </div>
+
+              <!-- HERO HEADER -->
+              <div class="space-y-4">
+                <span class="font-mono text-xs tracking-widest uppercase font-bold block"
+                  :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'"
+                >
+                  // PROFILING THE IT ATHLETE
+                </span>
+                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-white uppercase leading-none"
+                  x-text="getActiveVersion().heroHeadline"
+                ></h2>
+                <p class="font-mono text-sm sm:text-base text-gray-400 italic tracking-wider uppercase border-l-2 pl-3"
+                   :class="themeAccent === 'orange' ? 'border-[#fd4900]' : 'border-[#00ff00]'"
+                   x-text="getActiveVersion().subheadline"
+                ></p>
+              </div>
+
+              <!-- CORE HOOK PANEL -->
+              <div class="bg-[#09090b]/95 border border-[#262626] p-6 sm:p-8 relative">
+                <div class="absolute top-0 right-0 text-black font-mono text-[9px] font-bold px-2 py-0.5 uppercase tracking-wider"
+                  :class="themeAccent === 'orange' ? 'bg-[#fd4900]' : 'bg-[#00ff00]'"
+                >
+                  HOOK INSTANCE
+                </div>
+                <p class="font-sans text-lg sm:text-xl text-white font-bold leading-snug tracking-tight"
+                   x-text="getActiveVersion().hook"
+                ></p>
+              </div>
+
+              <!-- DOUBLE COLUMN CORE DETAILS -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <template x-for="(paragraph, index) in getActiveVersion().paragraphs" :key="index">
+                  <div class="border border-[#262626] bg-[#09090b]/70 p-6 backdrop-blur-sm">
+                    <span class="font-mono text-[9px] text-gray-500 font-bold block mb-2 uppercase tracking-widest"
+                      x-text="'SKELETAL_SPEC // 0' + (index + 1)"
+                    ></span>
+                    <p class="font-sans text-gray-300 text-sm leading-relaxed font-medium" x-text="paragraph"></p>
+                  </div>
+                </template>
+              </div>
+
+              <!-- HARDWARE STACK PORTION -->
+              <div class="border border-[#262626] bg-[#09090b]/90 p-6">
+                <div class="border-b border-[#262626] pb-3 mb-6 flex justify-between items-center">
+                  <h3 class="font-sans text-xs font-black uppercase tracking-wider text-white">
+                    THE SKELETAL HARDWARE STACK
+                  </h3>
+                  <span class="font-mono text-[9px] text-gray-500 font-bold uppercase tracking-widest">
+                    CORE DIRECTIVES
+                  </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <template x-for="(item, idx) in getActiveVersion().hardwareStack" :key="idx">
+                    <div class="p-4 border border-[#262626] bg-black flex flex-col justify-between hover:border-gray-500 transition-colors">
+                      <div>
+                        <div class="flex justify-between items-center mb-3">
+                          <span class="font-mono text-[9px] bg-[#09090b] border border-[#262626] text-gray-400 px-1.5 py-0.5 font-bold uppercase"
+                            x-text="'LVL_0' + item.level"
+                          ></span>
+                          <span class="w-2 h-2 rounded-none" :class="themeAccent === 'orange' ? 'bg-[#fd4900]' : 'bg-[#00ff00]'"></span>
+                        </div>
+
+                        <h4 class="font-sans text-sm font-black text-white uppercase tracking-tight" x-text="item.name"></h4>
+                        <p class="font-mono text-[10px] text-gray-400 font-bold uppercase mt-1 leading-tight" x-text="item.metaphor"></p>
+                        <p class="font-sans text-xs text-gray-400 mt-2 leading-relaxed" x-text="item.details"></p>
+                      </div>
+
+                      <div class="mt-4 border-t border-[#1c1917] pt-3 flex justify-between items-center text-[9px] font-mono text-gray-500">
+                        <span>REPAIR MATRIX</span>
+                        <span :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">READY</span>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+
+              <!-- POSTURE DIAGNOSTICS DEBT MATRIX (DYNAMIC PREVIEW) -->
+              <div class="border border-[#262626] bg-black/80 p-6">
+                <div class="border-b border-[#262626] pb-3 mb-4 flex justify-between items-center">
+                  <h3 class="font-sans text-xs font-black uppercase tracking-wider text-white flex items-center gap-2">
+                    <i data-lucide="sliders" class="w-3.5 h-3.5 text-gray-400"></i>
+                    <span>POSTURE DEBT REDUCTION REPORT</span>
+                  </h3>
+                  <span class="font-mono text-[9px] text-gray-500 uppercase tracking-widest">
+                    REAL-TIME DIAGNOSIS
+                  </span>
+                </div>
+
+                <div class="space-y-2.5">
+                  <template x-for="item in debts" :key="item.id">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 border border-[#1a1a1a] bg-[#09090b] text-xs font-mono">
+                      <div>
+                        <div class="flex items-center gap-2">
+                          <span class="w-1.5 h-1.5 rounded-none" :class="installedPatches.includes(item.id) ? 'bg-green-500' : 'bg-red-500 animate-pulse'"></span>
+                          <span class="font-bold text-white uppercase" x-text="item.symptom"></span>
+                        </div>
+                        <p class="text-[11px] text-gray-500 mt-1 pl-3">
+                          <span class="font-bold uppercase" :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">// METAPHOR:</span> <span x-text="item.itMetaphor"></span>
+                        </p>
+                      </div>
+
+                      <div class="mt-2 sm:mt-0">
+                        <span x-show="installedPatches.includes(item.id)" class="bg-green-950/40 border border-green-900 text-green-500 px-2 py-0.5 font-bold text-[9px] tracking-widest uppercase">
+                          ✔ PATCHED
+                        </span>
+                        <span x-show="!installedPatches.includes(item.id)" class="bg-red-950/40 border border-red-900 text-red-500 px-2 py-0.5 font-bold text-[9px] tracking-widest uppercase animate-pulse">
+                          ✘ DEBT_LOAD
+                        </span>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+
+              <!-- FINAL CONVERSION SECTION -->
+              <div class="text-center py-8 border-t border-[#262626] space-y-4">
+                <h3 class="font-sans text-xl sm:text-2xl font-black text-white uppercase tracking-tight">
+                  Are You Ready to Refactor?
+                </h3>
+                <p class="font-mono text-xs text-gray-400 uppercase tracking-widest max-w-md mx-auto leading-relaxed">
+                  Rebuild the hardware stack that powers your code. Zero wellness excuses. Elite athletic conditioning.
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-3 max-w-sm mx-auto pt-2">
+                  <button
+                    @click="alert('Initiating active sign-up flow for Z\'s conditioning system.')"
+                    class="w-full text-black font-sans font-black text-xs py-3.5 tracking-widest uppercase hover:bg-white transition-colors border font-bold"
+                    :class="themeAccent === 'orange' ? 'bg-[#fd4900] border-[#fd4900]' : 'bg-[#00ff00] border-[#00ff00]'"
+                    x-text="getActiveVersion().primaryCTA"
+                  ></button>
+                  <button
+                    @click="activeTab = 'diagnostics'"
+                    class="w-full bg-black text-white hover:text-white border border-[#262626] hover:border-white font-sans font-black text-xs py-3.5 tracking-widest uppercase transition-colors"
+                    x-text="getActiveVersion().secondaryCTA"
+                  ></button>
+                </div>
+              </div>
+
+              <!-- MANDATORY SIGN-OFF -->
+              <div class="pt-6 border-t border-[#1a1a1a] text-center font-mono text-xs">
+                <p class="text-gray-500 uppercase tracking-wider mb-1">
+                  VERIFIED COACH AUTHENTIC SIGN-OFF
+                </p>
+                <p class="text-white font-bold text-sm tracking-widest uppercase italic">
+                  "You support the tech. I support you. — Z."
+                </p>
+              </div>
+
+            </div>
+
+            <!-- SIMULATOR FOOTER -->
+            <div class="mt-16 border-t border-[#262626] pt-8 flex flex-col sm:flex-row justify-between items-center text-gray-600 text-[10px] font-mono gap-4">
+              <span>© 2026 ZHIMMITHEE BANKS // THE IT ATHLETE</span>
+              <div class="flex gap-4">
+                <span>CABLES</span>
+                <span>BANDS</span>
+                <span>BELLS</span>
+              </div>
+              <span class="font-bold" :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">100% BIOMECHANICAL INTEGRITY</span>
+            </div>
+          </div>
+
+          <!-- Scrolling Option Toggle -->
+          <div class="bg-[#0e0e11] border-t border-[#262626] px-4 py-2.5 flex justify-between items-center text-[10px] font-mono text-gray-400">
+            <span>SIMULATOR VIEWPORT CONSTRAINTS: FIXED ASPECT</span>
+            <button
+              @click="isLivePreviewScroll = !isLivePreviewScroll"
+              class="font-bold uppercase tracking-wider hover:underline"
+              :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'"
+              x-text="isLivePreviewScroll ? '[ACTIVATE UNBOUND CANVAS]' : '[RESTRICT VIEWPORT]'"
+            ></button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- TAB 3: Copy Refactor Editor -->
+      <div x-show="activeTab === 'editor'" class="flex-1 grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#262626] bg-[#050507]">
+        
+        <!-- Form Editor Columns -->
+        <div class="lg:col-span-6 p-6 sm:p-8 space-y-6 overflow-y-auto max-h-[700px]">
+          <div class="border-b border-[#262626] pb-3 flex justify-between items-center">
+            <h3 class="font-mono text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+              <i data-lucide="sliders" class="w-4 h-4" :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'"></i>
+              <span>DRAFT BLUEPRINT REFACTOR LAB</span>
+            </h3>
+            <button
+              @click="resetEdits()"
+              class="text-[10px] font-mono text-gray-500 hover:text-white transition-colors uppercase"
+            >
+              [Reset All Drafts]
+            </button>
+          </div>
+
+          <div class="space-y-4 font-mono text-xs">
+            
+            <!-- Headline compliance notes -->
+            <div class="bg-[#09090b] p-3 border border-[#262626] space-y-1">
+              <p class="text-white font-bold uppercase text-[10px] flex items-center gap-1.5">
+                <i data-lucide="lock" class="w-3 h-3 text-[#fd4900]"></i>
+                <span>MANDATORY TAGLINES ACTIVATED</span>
+              </p>
+              <p class="text-[11px] text-gray-400 leading-normal font-sans">
+                The core tagline structures are strictly enforced across the page to ensure operational safety and elite coaching brand positioning.
+              </p>
+            </div>
+
+            <!-- Hero Headline -->
+            <div>
+              <label class="block text-gray-400 font-bold uppercase mb-1">
+                Hero Headline (Locked Constraint)
+              </label>
+              <input
+                type="text"
+                x-model="getActiveVersion().heroHeadline"
+                disabled
+                class="w-full bg-black border border-[#1c1917] p-2.5 text-gray-500 font-sans font-bold cursor-not-allowed uppercase text-sm"
+              />
+            </div>
+
+            <!-- Subheadline -->
+            <div>
+              <label class="block text-gray-400 font-bold uppercase mb-1">
+                Subheadline (Locked Constraint)
+              </label>
+              <input
+                type="text"
+                x-model="getActiveVersion().subheadline"
+                disabled
+                class="w-full bg-black border border-[#1c1917] p-2.5 text-gray-500 font-sans font-bold cursor-not-allowed italic text-sm"
+              />
+            </div>
+
+            <!-- Hook Textarea -->
+            <div>
+              <label class="block text-gray-400 font-bold uppercase mb-1">
+                The Hook Metaphor Input
+              </label>
+              <textarea
+                rows="3"
+                x-model="getActiveVersion().hook"
+                class="w-full bg-[#09090b] border border-[#262626] focus:border-white p-2.5 text-white font-sans text-sm focus:outline-none transition-colors"
+              ></textarea>
+            </div>
+
+            <!-- Body Paragraphs -->
+            <template x-for="(para, idx) in getActiveVersion().paragraphs" :key="idx">
+              <div>
+                <label class="block text-gray-400 font-bold uppercase mb-1" x-text="'Body Paragraph 0' + (idx + 1)"></label>
+                <textarea
+                  rows="4"
+                  x-model="getActiveVersion().paragraphs[idx]"
+                  class="w-full bg-[#09090b] border border-[#262626] focus:border-white p-2.5 text-white font-sans text-sm focus:outline-none transition-colors"
+                ></textarea>
+              </div>
+            </template>
+
+            <!-- Primary & Secondary CTA customization -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-gray-400 font-bold uppercase mb-1">
+                  Primary CTA button
+                </label>
+                <input
+                  type="text"
+                  x-model="getActiveVersion().primaryCTA"
+                  class="w-full bg-[#09090b] border border-[#262626] focus:border-white p-2 text-white font-mono uppercase"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-400 font-bold uppercase mb-1">
+                  Secondary CTA button
+                </label>
+                <input
+                  type="text"
+                  x-model="getActiveVersion().secondaryCTA"
+                  class="w-full bg-[#09090b] border border-[#262626] focus:border-white p-2 text-white font-mono uppercase"
+                />
+              </div>
+            </div>
+
+            <!-- Sign Off -->
+            <div>
+              <label class="block text-gray-400 font-bold uppercase mb-1">
+                Coach Sign-Off (Locked Constraint)
+              </label>
+              <input
+                type="text"
+                x-model="getActiveVersion().signOff"
+                disabled
+                class="w-full bg-black border border-[#1c1917] p-2.5 text-gray-500 font-sans font-bold cursor-not-allowed"
+              />
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Quick Preview Split -->
+        <div class="lg:col-span-6 p-6 sm:p-8 flex flex-col justify-between bg-[#08080a]">
+          <div class="space-y-6">
+            <span class="border px-2 py-1 text-[10px] font-bold uppercase tracking-widest block w-fit font-mono"
+              :class="themeAccent === 'orange' ? 'bg-[#fd4900]/10 text-[#fd4900] border-[#fd4900]/30' : 'bg-[#00ff00]/10 text-[#00ff00] border-[#00ff00]/30'"
+            >
+              REALTIME COMPONENT RENDER
+            </span>
+
+            <div class="space-y-4">
+              <p class="text-gray-500 font-mono text-[10px] uppercase">RENDER OUTPUT PREVIEW:</p>
+              
+              <!-- Interactive Button Preview Card -->
+              <div class="bg-black p-6 border border-[#262626] space-y-4">
+                <p class="font-mono text-[11px] text-gray-400 uppercase">
+                  BUTTON DESIGN HOVER PREVIEW:
+                </p>
+                <div class="flex flex-wrap gap-4">
+                  <button class="px-6 py-2.5 text-black text-xs font-mono font-bold uppercase hover:bg-white hover:text-black transition-colors"
+                    :class="themeAccent === 'orange' ? 'bg-[#fd4900]' : 'bg-[#00ff00]'"
+                    x-text="getActiveVersion().primaryCTA"
+                  ></button>
+                  <button class="px-6 py-2.5 bg-black border border-[#262626] text-white text-xs font-mono font-bold uppercase hover:bg-white hover:text-black transition-colors"
+                    x-text="getActiveVersion().secondaryCTA"
+                  ></button>
+                </div>
+              </div>
+
+              <!-- Core Hook Block Preview -->
+              <div class="bg-black p-6 border border-[#262626] space-y-3">
+                <span class="text-[10px] font-mono uppercase font-bold tracking-widest block text-[#fd4900]">// HOOK RENDER PREVIEW:</span>
+                <p class="font-sans text-sm text-gray-300 leading-relaxed font-bold italic"
+                   x-text="'&ldquo;' + getActiveVersion().hook + '&rdquo;'"
+                ></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-[#262626] pt-6 mt-8">
+            <button
+              @click="activeTab = 'mockup'"
+              class="w-full bg-white text-black py-3 font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-200"
+            >
+              LOAD INTO LANDING PAGE SIMULATION
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 4: Diagnostics Debt Debugger -->
+      <div x-show="activeTab === 'diagnostics'" class="flex-1 grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-[#262626] bg-[#050507]">
+        
+        <!-- Diagnostic list -->
+        <div class="lg:col-span-7 p-6 sm:p-8 space-y-6 overflow-y-auto max-h-[700px]">
+          <div class="border-b border-[#262626] pb-3 flex justify-between items-center">
+            <h3 class="font-mono text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+              <i data-lucide="wrench" class="w-4 h-4" :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'"></i>
+              <span>BIOMECHANICAL DEBT CORRECTION CONSOLE</span>
+            </h3>
+            <button
+              @click="resetAllPatches()"
+              class="text-[10px] font-mono text-gray-500 hover:text-white transition-colors uppercase"
+            >
+              [Re-Initialize Skeletal Frame]
+            </button>
+          </div>
+
+          <p class="text-xs text-gray-400 font-mono leading-relaxed">
+            Most personal trainers focus on vain cosmetic bodybuilding. We diagnose, audit, and patch actual Physical Technical Debt (postural lag, hip memory leaks, joint adaptive friction) using bands, cables, and kettlebells.
+          </p>
+
+          <!-- Install Progress Bar -->
+          <div x-show="patchingId !== null" class="bg-black p-4 border border-[#262626] font-mono text-xs space-y-2">
+            <div class="flex justify-between items-center font-bold">
+              <span class="animate-pulse uppercase" :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">⚙ PATCHING PHYSICAL METAPHOR DEBT...</span>
+              <span x-text="patchProgress + '%'"></span>
+            </div>
+            <div class="w-full bg-[#09090b] h-2.5 overflow-hidden border border-[#262626]">
+              <div
+                class="h-full transition-all duration-150"
+                :class="themeAccent === 'orange' ? 'bg-[#fd4900]' : 'bg-[#00ff00]'"
+                :style="'width: ' + patchProgress + '%'"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Debt list -->
+          <div class="space-y-3">
+            <template x-for="item in debts" :key="item.id">
+              <div class="p-4 border transition-colors bg-black border-[#262626]">
+                <div class="flex justify-between items-start flex-wrap gap-2">
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-none" :class="installedPatches.includes(item.id) ? 'bg-green-500' : 'bg-red-500 animate-pulse'"></span>
+                      <h4 class="font-mono text-xs font-black text-white uppercase" x-text="item.symptom"></h4>
+                    </div>
+                    <p class="text-gray-400 text-xs font-sans mt-1.5 leading-relaxed">
+                      <strong class="font-mono uppercase text-[10px]" :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'">Skeletal Debt Metaphor:</strong>
+                      <span x-text="item.itMetaphor"></span>
+                    </p>
+                  </div>
+                  
+                  <span class="font-mono text-[9px] border px-2 py-0.5 uppercase font-bold"
+                    :class="installedPatches.includes(item.id) ? 'border-green-800 text-green-500 bg-green-950/20' : 'border-red-900 text-red-500 bg-red-950/20'"
+                    x-text="installedPatches.includes(item.id) ? '✔ PATCHED' : '✘ DEBT LOAD'"
+                  ></span>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-[#1c1917]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div class="text-[11px] font-mono text-gray-500 leading-normal">
+                    <span class="text-white font-bold uppercase">HOT-FIX SOLUTION:</span> <span x-text="item.patch"></span>
+                  </div>
+
+                  <button
+                    @click="runPatch(item.id)"
+                    :disabled="patchingId !== null"
+                    class="px-3 py-1.5 font-mono text-[10px] font-bold uppercase border hover:bg-white hover:text-black transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    :class="installedPatches.includes(item.id)
+                      ? 'border-gray-600 text-gray-400 hover:border-white'
+                      : (themeAccent === 'orange' ? 'border-[#fd4900] text-[#fd4900]' : 'border-[#00ff00] text-[#00ff00]')"
+                    x-text="installedPatches.includes(item.id) ? '[ROLLBACK PATCH]' : '[EXECUTE HOT-FIX]'"
+                  ></button>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- Right diagnostics diagnostics system summary stats panel -->
+        <div class="lg:col-span-5 p-6 sm:p-8 bg-[#09090b] flex flex-col justify-between">
+          <div class="space-y-6">
+            <span class="border px-2 py-1 text-[10px] font-bold uppercase tracking-widest block w-fit font-mono"
+              :class="themeAccent === 'orange' ? 'bg-[#fd4900]/10 text-[#fd4900] border-[#fd4900]/30' : 'bg-[#00ff00]/10 text-[#00ff00] border-[#00ff00]/30'"
+            >
+              REAL-TIME SKELETAL HEALTH LOGS
+            </span>
+
+            <div class="bg-black p-4 border border-[#262626] font-mono text-xs space-y-3">
+              <p class="text-gray-500 font-bold uppercase text-[10px] border-b border-[#262626] pb-2">
+                SYSTEM INTEGRITY AUDIT:
+              </p>
+              
+              <div class="space-y-2">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Total Structural Defects:</span>
+                  <span class="text-white font-bold" x-text="debts.length"></span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Movement Patches Applied:</span>
+                  <span class="font-bold text-green-500" x-text="installedPatches.length + ' / ' + debts.length"></span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">System Integrity Rating:</span>
+                  <span class="font-bold"
+                    :class="installedPatches.length === debts.length ? 'text-green-500' : (installedPatches.length > 0 ? 'text-yellow-500' : 'text-red-500')"
+                    x-text="installedPatches.length === debts.length ? '100% HEALTHY' : (installedPatches.length > 0 ? 'PARTIAL HOT-FIXES' : '92% CRITICAL LAG')"
+                  ></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Kinetic diagram status placeholder -->
+            <div class="border border-[#262626] p-6 text-center space-y-4">
+              <div class="relative w-32 h-32 mx-auto border-2 flex items-center justify-center bg-black/40"
+                :class="themeAccent === 'orange' ? 'border-[#fd4900]/30' : 'border-[#00ff00]/30'"
+              >
+                <!-- Static target focus rings matching industrial mood -->
+                <span class="absolute inset-2 border border-dashed" :class="themeAccent === 'orange' ? 'border-[#fd4900]/20' : 'border-[#00ff00]/20'"></span>
+                <span class="absolute inset-6 border" :class="themeAccent === 'orange' ? 'border-[#fd4900]/10' : 'border-[#00ff00]/10'"></span>
+                <i data-lucide="cpu" class="w-10 h-10 text-gray-500" :class="themeAccent === 'orange' ? 'text-[#fd4900]' : 'text-[#00ff00]'"></i>
+              </div>
+              <div>
+                <p class="text-xs font-mono font-bold text-white uppercase">ANATOMICAL CORE GENERATOR: ACTIVE</p>
+                <p class="text-[10px] font-mono text-gray-500 uppercase mt-0.5">Continuous constant load vectors calculated</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-[#262626] pt-6 mt-8">
+            <button
+              @click="activeTab = 'mockup'"
+              class="w-full bg-white text-black py-3 font-mono text-xs font-bold uppercase tracking-widest hover:bg-gray-200"
+            >
+              PREVIEW REPAIR RESULTS IN SIMULATOR
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Site Footer Information -->
+    <footer class="p-6 bg-black border-t border-[#262626] text-center font-mono text-xs relative z-10">
+      <p class="text-gray-400">
+        The IT Athlete, powered by Cables, Bands, and Bells.
+      </p>
+      <p class="text-gray-600 text-[10px] mt-1 uppercase tracking-wider">
+        Crafted for high mechanical uptime. Strictly 0px border-radius bounds.
+      </p>
+    </footer>
+
+    <!-- Sleek Floating Low-Profile Tab Controller -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#0a0a0c]/95 backdrop-blur-md border border-[#333333] p-1.5 flex gap-1 shadow-2xl items-center max-w-[95vw] overflow-x-auto">
+      <button
+        @click="activeTab = 'board'"
+        class="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider transition-all"
+        :class="activeTab === 'board' ? 'bg-white text-black' : 'text-gray-400 hover:text-white hover:bg-[#111111]'"
+      >
+        <i data-lucide="grid-3x3" class="w-3.5 h-3.5"></i>
+        <span>1. BOARD</span>
+      </button>
+      
+      <button
+        @click="activeTab = 'mockup'"
+        class="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider transition-all"
+        :class="activeTab === 'mockup' ? 'bg-white text-black' : 'text-gray-400 hover:text-white hover:bg-[#111111]'"
+      >
+        <i data-lucide="layout" class="w-3.5 h-3.5"></i>
+        <span>2. SIMULATOR</span>
+      </button>
+
+      <button
+        @click="activeTab = 'editor'"
+        class="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider transition-all"
+        :class="activeTab === 'editor' ? 'bg-white text-black' : 'text-gray-400 hover:text-white hover:bg-[#111111]'"
+      >
+        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+        <span>3. REFACTOR</span>
+      </button>
+
+      <button
+        @click="activeTab = 'diagnostics'"
+        class="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider transition-all"
+        :class="activeTab === 'diagnostics' ? 'bg-white text-black' : 'text-gray-400 hover:text-white hover:bg-[#111111]'"
+      >
+        <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+        <span>4. DEBUGGER</span>
+      </button>
+    </div>
+
+    <!-- Alpine.js Application State Object Initialization -->
+    <script>
+      function renderIcons() {
+        setTimeout(() => {
+          if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+          }
+        }, 80);
+      }
+
+      document.addEventListener('alpine:init', () => {
+        Alpine.data('appState', () => ({
+          themeAccent: 'orange',
+          activeTab: 'board',
+          selectedVersionId: 'v3',
+          isLivePreviewScroll: true,
+          clipboardStatus: null,
+          patchingId: null,
+          patchProgress: 0,
+          installedPatches: [],
+
+          versions: [
+            {
+              id: "v1",
+              title: "Version 1: Direct / Punchy",
+              badge: "MOVEMENT PATCH",
+              focus: "Focuses on the 'Movement Patch' as an immediate, friction-free hot-fix for physical bugs.",
+              heroHeadline: "Train Like Your Body Still Matters.",
+              subheadline: "Train the body that supports the tech.",
+              hook: "Your physical stack is crashing. You've got high-latency movement patterns and severe biomechanical degradation. Posture slouch is your primary technical debt.",
+              paragraphs: [
+                "Let's install the Movement Patch: daily, high-tension correctives to debug your physical stack before your main server fails. No fluff. No gym required. Play the cards you have.",
+                "This is physical maintenance for elite IT professionals. We strip away the wellness industry lies and execute high-yield movement protocols. 10 minutes. Zero friction. Maximum physical uptime."
+              ],
+              hardwareStack: [
+                { level: 1, name: "Bands", purpose: "Daily Readiness & Joint Mobilization", metaphor: "Movement Patch / Active Debugger", details: "Instant physical hot-fix to lubricate joints, reset shoulder tracking, and clear structural lag." },
+                { level: 2, name: "Cables", purpose: "Constant Tension & Postural Correctives", metaphor: "Precision Load Distribution", details: "Constant tension across exact vectors to hyper-target and rebuild weakened muscle groups under continuous load." },
+                { level: 3, name: "Kettlebells", purpose: "Power Engine & Stability", metaphor: "Core Base Infrastructure", details: "Ballistic, explosive load dynamics to establish solid abdominal bracing and restore pelvic power foundations." }
+              ],
+              callouts: [
+                { label: "Execution Time", value: "10 MINS", desc: "No-friction daily movement patch." },
+                { label: "Hardware Focus", value: "BANDS", desc: "Zero-overhead corrective drills." },
+                { label: "Physical Debt Fix", value: "IMMEDIATE", desc: "Posture hot-fixes." }
+              ],
+              signOff: "You support the tech. I support you. — Z.",
+              primaryCTA: "APPLY MOVEMENT PATCH",
+              secondaryCTA: "DIAGNOSE DEBT"
+            },
+            {
+              id: "v2",
+              title: "Version 2: Logic-Driven",
+              badge: "HARDWARE DEGRADATION",
+              focus: "Focuses on the Hardware Stack hierarchy and treats physical collapse as an infrastructure failure.",
+              heroHeadline: "Train Like Your Body Still Matters.",
+              subheadline: "Train the body that supports the tech.",
+              hook: "Sedentary desk work is a slow, silent hardware degradation issue. You are running high-performance software on rotting physical infrastructure. Your structural frame is leaking capacity.",
+              paragraphs: [
+                "We rebuild your structural integrity using a strict Hardware Stack Hierarchy: Bands, Cables, Kettlebells. This is logic-backed conditioning designed for 100% human uptime.",
+                "Every joint has a strict latency budget. By executing targeted, constant-tension resistance vectors, we resolve physical memory leaks and optimize your mechanical efficiency."
+              ],
+              hardwareStack: [
+                { level: 1, name: "Bands", purpose: "Joint Decompression & Active Mobility", metaphor: "Layer 1: Daily Diagnostic & Ready State", details: "Clearing musculoskeletal latency, mobilizing hip capsule sockets, and releasing desk-bound tight spots." },
+                { level: 2, name: "Cables", purpose: "Predictable, Continuous Load Vectors", metaphor: "Layer 2: Load Profiling & Structural Reinforcement", details: "Consistent structural stress to stimulate muscle growth and reinforce postural alignment without joint damage." },
+                { level: 3, name: "Kettlebells", purpose: "Ballistic Grounding & Explosive Resilience", metaphor: "Layer 3: Power Generator & Base Frame Upgrades", details: "Dynamic, heavy hip hinges and structural carries that fuse lower-body foundation with spinal bracing." }
+              ],
+              callouts: [
+                { label: "System Uptime", value: "100%", desc: "Focus on zero joint breakdown." },
+                { label: "Hardware Stack", value: "3 LAYERS", desc: "Bands, Cables, Kettlebells." },
+                { label: "Efficiency Gain", value: "+40%", desc: "Power transfer and stability." }
+              ],
+              signOff: "You support the tech. I support you. — Z.",
+              primaryCTA: "UPGRADE HARDWARE STACK",
+              secondaryCTA: "REVIEW DIAGNOSTICS"
+            },
+            {
+              id: "v3",
+              title: "Version 3: Personal Coach",
+              badge: "YOU'RE NOT DONE",
+              focus: "Focuses on the 'You're Not Done' philosophy, acting as a direct, honest mentor for the 30-55 age bracket.",
+              heroHeadline: "Train Like Your Body Still Matters.",
+              subheadline: "Train the body that supports the tech.",
+              hook: "You're between 30 and 55. You've built an incredible career, but your physical machine is paying the price. Tech Neck isn't a badge of honor—it's a critical system error.",
+              paragraphs: [
+                "Listen to me: You're Not Done. Your body is the only asset you cannot hot-swap. Let's fix your biomechanical debt. I'm not here to hold your hand or feed you wellness lies. I am here to build the rugged frame that supports your ambition.",
+                "We establish real, daily physical readiness. We work with your actual physical constraints—not some idealized fitness magazine routine—and systematically upgrade your mechanical uptime. You are the architect of your tech; it's time to act like the architect of your body."
+              ],
+              hardwareStack: [
+                { level: 1, name: "Bands", purpose: "Pain Mitigation & Kinetic Alignment", metaphor: "First Response: Reset the Base", details: "Daily, high-frequency work to decompress the spine, restore shoulder blade glide, and cure daily computer fatigue." },
+                { level: 2, name: "Cables", purpose: "Muscle Reinforcement & Tension Control", metaphor: "Precision Work: Build the Frame", details: "Targeted stimulation to reinforce the posterior chain, pulling you back out of the chronic desk slouch." },
+                { level: 3, name: "Kettlebells", purpose: "Hinges, Swings & Absolute Core Bracing", metaphor: "Power Integration: Fuel the Core", details: "Re-educating the glutes and abdominal wall to brace against compression and transfer absolute mechanical power." }
+              ],
+              callouts: [
+                { label: "Client Demographic", value: "30-55 YRS", desc: "Built for desk-bound IT professionals." },
+                { label: "No Fluff Policy", value: "100%", desc: "Zero wellness jargon or excuses." },
+                { label: "Target State", value: "RUGGED", desc: "Biomechanical resilience." }
+              ],
+              signOff: "You support the tech. I support you. — Z.",
+              primaryCTA: "CLAIM YOUR SEAT",
+              secondaryCTA: "EXPOSE BLIND SPOTS"
+            }
+          ],
+
+          debts: [
+            { id: 'debt-1', symptom: 'Support Slouch (Thoracic Kyphosis)', itMetaphor: 'Severe skeletal memory leak causing gradual structural collapse.', patch: 'Band Pull-Aparts & Face Pulls (High-tension correctives to reset shoulder-blade seating).', severity: 'Critical' },
+            { id: 'debt-2', symptom: 'Tech Neck (Forward Head Posture)', itMetaphor: 'Off-center load stress on cervical nodes, draining system resources.', patch: 'Cervical Retractions & Neck Isometrics (Re-center head alignment for zero-latency neural pathways).', severity: 'Critical' },
+            { id: 'debt-3', symptom: 'Glute Amnesia (Dead Butt Syndrome)', itMetaphor: 'Primary base power engine completely offline from 10+ hours in seat.', patch: 'Kettlebell Glute Bridges & Hip Hinges (Re-initialize motor patterns and reactivate glute firing).', severity: 'High' },
+            { id: 'debt-4', symptom: 'Tight Hip Flexors (Adaptive Shortening)', itMetaphor: 'High-friction joint restriction, bottlenecking stride velocity and lower-back health.', patch: 'Half-Kneeling Hip Flexor Mobilization with active glute contraction (Dynamic stretch-and-load).', severity: 'High' }
+          ],
+
+          getActiveVersion() {
+            return this.versions.find(v => v.id === this.selectedVersionId) || this.versions[2];
+          },
+
+          copyActiveDraft() {
+            const v = this.getActiveVersion();
+            const text = `
+HERO: ${v.heroHeadline}
+SUB: ${v.subheadline}
+HOOK: ${v.hook}
+Paragraph 1: ${v.paragraphs[0]}
+Paragraph 2: ${v.paragraphs[1]}
+SIGN-OFF: ${v.signOff}
+            `.trim();
+            navigator.clipboard.writeText(text);
+            this.clipboardStatus = 'sim';
+            setTimeout(() => { this.clipboardStatus = null; }, 3000);
+          },
+
+          runPatch(id) {
+            if (this.installedPatches.includes(id)) {
+              this.installedPatches = this.installedPatches.filter(p => p !== id);
+              return;
+            }
+            this.patchingId = id;
+            this.patchProgress = 0;
+            const interval = setInterval(() => {
+              if (this.patchProgress >= 100) {
+                clearInterval(interval);
+                this.installedPatches.push(id);
+                this.patchingId = null;
+                this.patchProgress = 0;
+              } else {
+                this.patchProgress += 10;
+              }
+            }, 100);
+          },
+
+          resetAllPatches() {
+            this.installedPatches = [];
+            this.patchingId = null;
+            this.patchProgress = 0;
+          },
+
+          resetEdits() {
+            if (confirm("Reset all manual edits back to the raw, athletic drafts?")) {
+              window.location.reload();
+            }
+          }
+        }));
+      });
+
+      // Initial Call
+      window.onload = () => {
+        renderIcons();
+      };
+    </script>
+  </body>
+</html>
