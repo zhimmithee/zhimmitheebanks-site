@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteBase /
+
+# Pass all /blog requests straight through to the subdirectory
+RewriteRule ^blog(/.*)?$ - [L]
+
+# Serve existing files/directories directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Clean URL support: maps /about to /about.html
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^([^/]+)/?$ $1.html [L]
