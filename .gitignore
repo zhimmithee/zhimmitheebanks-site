@@ -1,0 +1,3 @@
+# Never track or overwrite the WordPress directory
+blog/
+/blog/
