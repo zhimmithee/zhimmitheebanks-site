@@ -1,13 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zhimmithee Banks</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandOrange: '#fd4900',
+            brandBlue: '#00308F',
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body style="font-family: sans-serif; padding: 2rem; background: #111; color: #fff;">
-  <h1>Zhimmithee Banks</h1>
-  <p>Ahhh YEEEEAAAHHHHHH! Deployment successful. The site is running static assets at the root.</p>
-  <p><a href="/blog" style="color: #fd4900;">Visit Blog &rarr;</a></p>
+<body class="bg-neutral-950 text-neutral-200 antialiased selection:bg-brandOrange selection:text-white font-sans">
+
+  <div class="max-w-2xl mx-auto px-6 py-16 md:py-24">
+    <!-- Header -->
+    <header class="flex items-center justify-between pb-12 border-b border-neutral-800">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight text-white">Zhimmithee Banks</h1>
+        <p class="text-sm text-neutral-400">Lincoln, CA</p>
+      </div>
+      <nav class="flex items-center gap-6 text-sm font-medium">
+        <a href="/blog" class="hover:text-brandOrange transition-colors">Writing</a>
+        <a href="https://x.com/zhimmitheebanks" target="_blank" rel="noreferrer" class="text-neutral-400 hover:text-white transition-colors">X</a>
+      </nav>
+    </header>
+
+    <!-- Main Thesis -->
+    <main class="py-12 space-y-8 text-neutral-300 leading-relaxed text-base md:text-lg">
+      <p class="text-white text-xl md:text-2xl font-medium leading-snug">
+        I train to hold my own everywhere it counts. Not to be the best at any one thing. The gym, the job, the house, all of it, at the same time, every day[cite: 1].
+      </p>
+
+      <p>
+        Early in college track, my coach threatened to pull my scholarship because I wouldn't squat the way everyone else did[cite: 1]. I’d already been training myself for ten years and knew it would break me down[cite: 1]. I told him no[cite: 1]. I kept training my way and won indoor and outdoor championships that year anyway[cite: 1].
+      </p>
+
+      <p>
+        I’ve seen that same fight play out for thirty years in tech and in gyms[cite: 1]. People pick one lane, defend it like a religion, and let the rest of their lives decay[cite: 1]. I’m a Linux sysadmin who likes touching the whole stack, lifting heavy, moving well, and being present at home[cite: 1].
+      </p>
+
+      <p>
+        Being the best requires sacrifices most people never price out[cite: 1]. I’m not interested in being great at one thing if it means being broken everywhere else[cite: 1].
+      </p>
+
+      <!-- What is this space -->
+      <div class="pt-6 border-t border-neutral-800 space-y-6">
+        <h2 class="text-sm font-mono uppercase tracking-wider text-neutral-400">What I write about</h2>
+        
+        <ul class="space-y-4 text-base">
+          <li class="flex items-start gap-3">
+            <span class="text-brandOrange font-bold">&mdash;</span>
+            <div>
+              <strong class="text-white font-medium">The IT Athlete:</strong> 
+              Building a body that can handle sitting behind a desk without accumulating physical debt[cite: 1]. Movement patches, joints, bands, cables, and kettlebells[cite: 1].
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-brandOrange font-bold">&mdash;</span>
+            <div>
+              <strong class="text-white font-medium">Tech & Systems:</strong> 
+              Linux administration, practical AI workflows, and building tools that buy back your time instead of eating it[cite: 1].
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-brandOrange font-bold">&mdash;</span>
+            <div>
+              <strong class="text-white font-medium">Life:</strong> 
+              Fatherhood, longevity, curiosity, and refusing to trade your health or family for a career badge[cite: 1].
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Jump to writing -->
+      <div class="pt-8">
+        <a href="/blog" class="inline-flex items-center gap-2 text-brandOrange hover:underline font-medium text-base">
+          Read the blog posts &rarr;
+        </a>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="pt-12 border-t border-neutral-800 text-sm text-neutral-400 flex items-center justify-between">
+      <p>Hold your own where it matters[cite: 1].</p>
+      <p>Play the cards you have[cite: 1].</p>
+    </footer>
+  </div>
+
 </body>
 </html>
