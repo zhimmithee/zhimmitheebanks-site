@@ -1,9 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zhimmithee Banks</title>
+  <meta name="description" content="I write about physical uptime, modern tech leverage, and holding your own everywhere it counts." />
+
+  <!-- Social / Open Graph Preview -->
+  <meta property="og:title" content="Zhimmithee Banks" />
+  <meta property="og:description" content="I write about physical uptime, modern tech leverage, and holding your own everywhere it counts." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zhimmitheebanks.com" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@zhimmitheebanks" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -12,87 +22,112 @@
           colors: {
             brandOrange: '#fd4900',
             brandBlue: '#00308F',
+          },
+          fontFamily: {
+            mono: ['SF Mono', 'Fira Code', 'JetBrains Mono', 'monospace'],
           }
         }
       }
     }
   </script>
+  <style>
+    .bg-grid {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+  </style>
 </head>
-<body class="bg-neutral-950 text-neutral-200 antialiased selection:bg-brandOrange selection:text-white font-sans">
+<body class="bg-[#0b0c10] text-neutral-300 font-sans antialiased selection:bg-brandOrange selection:text-white min-h-full flex flex-col bg-grid relative">
 
-  <div class="max-w-2xl mx-auto px-6 py-16 md:py-24">
-    <!-- Header -->
-    <header class="flex items-center justify-between pb-12 border-b border-neutral-800">
+  <!-- Ambient Glow -->
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-64 bg-brandBlue/10 blur-[120px] pointer-events-none"></div>
+
+  <div class="max-w-3xl w-full mx-auto px-6 py-12 md:py-20 flex-1 flex flex-col relative z-10">
+    
+    <!-- Top Nav / Identity -->
+    <header class="flex items-center justify-between pb-8 border-b border-neutral-800/80">
       <div>
-        <h1 class="text-xl font-bold tracking-tight text-white">Zhimmithee Banks</h1>
-        <p class="text-sm text-neutral-400">Lincoln, CA</p>
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-brandOrange"></span>
+          <h1 class="text-xl font-bold tracking-tight text-white uppercase">Zhimmithee Banks</h1>
+        </div>
+        <p class="text-xs font-mono text-neutral-400 mt-0.5">Sysadmin &bull; Athlete &bull; Builder</p>
       </div>
-      <nav class="flex items-center gap-6 text-sm font-medium">
-        <a href="/blog" class="hover:text-brandOrange transition-colors">Writing</a>
-        <a href="https://x.com/zhimmitheebanks" target="_blank" rel="noreferrer" class="text-neutral-400 hover:text-white transition-colors">X</a>
+
+      <nav class="flex items-center gap-5 text-sm font-medium">
+        <a href="/blog" class="text-neutral-300 hover:text-brandOrange transition-colors">Writing</a>
+        <a href="https://x.com/zhimmitheebanks" target="_blank" rel="noreferrer" class="text-neutral-300 hover:text-white transition-colors">X</a>
       </nav>
     </header>
 
-    <!-- Main Thesis -->
-    <main class="py-12 space-y-8 text-neutral-300 leading-relaxed text-base md:text-lg">
-      <p class="text-white text-xl md:text-2xl font-medium leading-snug">
-        I train to hold my own everywhere it counts. Not to be the best at any one thing. The gym, the job, the house, all of it, at the same time, every day[cite: 1].
-      </p>
-
-      <p>
-        Early in college track, my coach threatened to pull my scholarship because I wouldn't squat the way everyone else did[cite: 1]. I’d already been training myself for ten years and knew it would break me down[cite: 1]. I told him no[cite: 1]. I kept training my way and won indoor and outdoor championships that year anyway[cite: 1].
-      </p>
-
-      <p>
-        I’ve seen that same fight play out for thirty years in tech and in gyms[cite: 1]. People pick one lane, defend it like a religion, and let the rest of their lives decay[cite: 1]. I’m a Linux sysadmin who likes touching the whole stack, lifting heavy, moving well, and being present at home[cite: 1].
-      </p>
-
-      <p>
-        Being the best requires sacrifices most people never price out[cite: 1]. I’m not interested in being great at one thing if it means being broken everywhere else[cite: 1].
-      </p>
-
-      <!-- What is this space -->
-      <div class="pt-6 border-t border-neutral-800 space-y-6">
-        <h2 class="text-sm font-mono uppercase tracking-wider text-neutral-400">What I write about</h2>
-        
-        <ul class="space-y-4 text-base">
-          <li class="flex items-start gap-3">
-            <span class="text-brandOrange font-bold">&mdash;</span>
-            <div>
-              <strong class="text-white font-medium">The IT Athlete:</strong> 
-              Building a body that can handle sitting behind a desk without accumulating physical debt[cite: 1]. Movement patches, joints, bands, cables, and kettlebells[cite: 1].
-            </div>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="text-brandOrange font-bold">&mdash;</span>
-            <div>
-              <strong class="text-white font-medium">Tech & Systems:</strong> 
-              Linux administration, practical AI workflows, and building tools that buy back your time instead of eating it[cite: 1].
-            </div>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="text-brandOrange font-bold">&mdash;</span>
-            <div>
-              <strong class="text-white font-medium">Life:</strong> 
-              Fatherhood, longevity, curiosity, and refusing to trade your health or family for a career badge[cite: 1].
-            </div>
-          </li>
-        </ul>
+    <!-- Core Hook -->
+    <section class="py-12 md:py-16 space-y-6">
+      <div class="inline-block border border-brandOrange/30 bg-brandOrange/10 px-3 py-1 rounded text-xs font-mono tracking-wide text-brandOrange">
+        MISSION OVER NICHE
       </div>
+      
+      <h2 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+        Hold your own everywhere it counts[cite: 1]. Not to be the best at one thing[cite: 1].
+      </h2>
 
-      <!-- Jump to writing -->
-      <div class="pt-8">
-        <a href="/blog" class="inline-flex items-center gap-2 text-brandOrange hover:underline font-medium text-base">
-          Read the blog posts &rarr;
-        </a>
+      <p class="text-lg text-neutral-300 leading-relaxed font-light">
+        The gym, the job, the house, all of it, at the same time, every day[cite: 1]. I’ve spent thirty years working Linux systems and thirty years conditioning my own body[cite: 1]. Being the best requires trade-offs most people never price out[cite: 1]. I refuse to sacrifice my family, health, or autonomy to worship a single lane[cite: 1].
+      </p>
+    </section>
+
+    <!-- The 3 Pillars / Interactive Cards -->
+    <section class="py-6 space-y-4">
+      <div class="text-xs font-mono tracking-wider uppercase text-neutral-400">The Hardware & Thought Stack</div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Physical -->
+        <div class="p-5 rounded-lg border border-neutral-800/80 bg-neutral-900/60 backdrop-blur-sm hover:border-brandOrange/50 transition-colors">
+          <span class="text-brandOrange font-mono text-xs font-bold block mb-2">01 / PHYSICAL</span>
+          <h3 class="text-white font-semibold text-base mb-1">The IT Athlete</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed">
+            Fixing physical technical debt from the desk chair[cite: 1]. Cables, bands, and kettlebells built for longevity and movement uptime[cite: 1].
+          </p>
+        </div>
+
+        <!-- Tech -->
+        <div class="p-5 rounded-lg border border-neutral-800/80 bg-neutral-900/60 backdrop-blur-sm hover:border-brandBlue/70 transition-colors">
+          <span class="text-blue-400 font-mono text-xs font-bold block mb-2">02 / SYSTEMS</span>
+          <h3 class="text-white font-semibold text-base mb-1">Tech & Automation</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed">
+            Linux architecture, AI tools, and pragmatic workflows[cite: 1]. Using tech to buy back hours instead of letting it consume life[cite: 1].
+          </p>
+        </div>
+
+        <!-- Mindset / Life -->
+        <div class="p-5 rounded-lg border border-neutral-800/80 bg-neutral-900/60 backdrop-blur-sm hover:border-neutral-700 transition-colors">
+          <span class="text-neutral-400 font-mono text-xs font-bold block mb-2">03 / PERSPECTIVE</span>
+          <h3 class="text-white font-semibold text-base mb-1">Longevity & Real Life</h3>
+          <p class="text-sm text-neutral-400 leading-relaxed">
+            Decathlete mindset[cite: 1]. Fatherhood, genuine curiosity, staying agile, and refusing dogmatic traps[cite: 1].
+          </p>
+        </div>
       </div>
-    </main>
+    </section>
+
+    <!-- Direct CTA to Ollie WordPress -->
+    <section class="mt-8 p-6 rounded-lg border border-neutral-800 bg-neutral-900/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <h4 class="text-white font-semibold text-base">Field notes, essays, and experiments</h4>
+        <p class="text-xs text-neutral-400 mt-1">Raw writing on training, systems, and self-reliance[cite: 1].</p>
+      </div>
+      <a href="/blog" class="px-4 py-2 rounded bg-neutral-800 hover:bg-neutral-700 text-white hover:text-brandOrange font-mono text-xs font-semibold tracking-wide border border-neutral-700 transition-all flex items-center gap-2 shrink-0">
+        VISIT BLOG &rarr;
+      </a>
+    </section>
 
     <!-- Footer -->
-    <footer class="pt-12 border-t border-neutral-800 text-sm text-neutral-400 flex items-center justify-between">
-      <p>Hold your own where it matters[cite: 1].</p>
-      <p>Play the cards you have[cite: 1].</p>
+    <footer class="mt-auto pt-16 pb-4 border-t border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-neutral-400 gap-2">
+      <div>&copy; 2026 Zhimmithee Banks. All rights reserved.</div>
+      <div class="text-neutral-400">Play the cards you have[cite: 1].</div>
     </footer>
+
   </div>
 
 </body>
